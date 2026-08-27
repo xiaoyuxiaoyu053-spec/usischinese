@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}开发者入口 - STAONS{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h2>开发者入口</h2>
+  <form method="post" action="{{ url_for('dev_login') }}">
+    <div class="form-group">
+      <label>开发者密码</label>
+      <input type="password" name="password" autofocus required>
+    </div>
+    <button class="btn btn-primary form-submit" type="submit">进入后台</button>
+  </form>
+  <div class="form-footer">
+    <a href="{{ url_for('index') }}">返回首页</a>
+  </div>
+</div>
+{% endblock %}

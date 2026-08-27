@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}后台管理 - STAONS{% endblock %}
+{% block content %}
+<div class="games-header">
+  <h1>开发者后台</h1>
+  <a class="btn btn-secondary" href="{{ url_for('dev_logout') }}">退出后台</a>
+</div>
+
+<div class="admin-section">
+  <h2>添加游戏</h2>
+  <form class="add-game-form" method="post" action="{{ url_for('admin_add_game') }}" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>游戏名字</label>
+      <input type="text" name="name" required>
+    </div>
+    <div class="form-group">
+      <label>游戏图标</label>
+      <input type="file" name="icon" accept="image/*" required>
+    </div>
+    <button class="btn btn-primary" type="submit">添加</button>
+  </form>
+</div>
+
+<div class="admin-section">
+  <h2>游戏列表({{ games|length }})</h2>
+  {% if games %}
+  <table>
+    <thead>
+      <tr><th>图标</th><th>名字</th><th>添加时间</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+      {% for game in games %}
+      <tr>
+        <td><img class="mini-icon" src="{{ url_for('static', filename='uploads/' + game.icon_filename) }}"></td>
+        <td>{{ game.name }}</td>
+        <td>{{ game.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin_delete_game', game_id=game.id) }}" style="display:inline" onsubmit="return confirm('确定删除该游戏吗?')">
+            <button class="action-btn danger" type="submit">删除</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">还没有添加任何游戏</div>
+  {% endif %}
+</div>
+
+<div class="admin-section">
+  <h2>玩家账户({{ users|length }})</h2>
+  {% if users %}
+  <table>
+    <thead>
+      <tr><th>用户名</th><th>状态</th><th>注册时间</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td>{{ u.username }}</td>
+        <td>
+          {% if u.is_banned %}
+          <span class="badge badge-banned">已封禁</span>
+          {% else %}
+          <span class="badge badge-ok">正常</span>
+          {% endif %}
+        </td>
+        <td>{{ u.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin_ban', user_id=u.id) }}" style="display:inline">
+            <button class="action-btn" type="submit">{{ '解封' if u.is_banned else '封禁' }}</button>
+          </form>
+          <form method="post" action="{{ url_for('admin_delete_user', user_id=u.id) }}" style="display:inline" onsubmit="return confirm('确定删除该账户吗?此操作不可恢复')">
+            <button class="action-btn danger" type="submit">删除</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">还没有玩家注册</div>
+  {% endif %}
+</div>
+{% endblock %}

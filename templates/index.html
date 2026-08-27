@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}STAONS - 首页{% endblock %}
+{% block content %}
+<div class="cover-wrap">
+  <img class="cover-img" src="{{ url_for('static', filename='img/cover.png') }}" alt="STAONS 封面">
+  <div class="site-title">STAONS</div>
+
+  {% if user %}
+    <div class="btn-row">
+      <a class="btn btn-primary" href="{{ url_for('games') }}">进入游戏大厅</a>
+      <a class="btn btn-secondary" href="{{ url_for('logout') }}">退出登录 ({{ user.username }})</a>
+    </div>
+  {% else %}
+    <div class="btn-row">
+      <a class="btn btn-secondary" href="{{ url_for('register') }}">注册账户</a>
+      <a class="btn btn-primary" href="{{ url_for('login') }}">登录</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

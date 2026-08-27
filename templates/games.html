@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}游戏大厅 - STAONS{% endblock %}
+{% block content %}
+<div class="games-header">
+  <h1>游戏大厅</h1>
+  <a class="btn btn-secondary" href="{{ url_for('logout') }}">退出登录 ({{ user.username }})</a>
+</div>
+
+{% if games %}
+<div class="games-grid">
+  {% for game in games %}
+  <div class="game-card">
+    <img src="{{ url_for('static', filename='uploads/' + game.icon_filename) }}" alt="{{ game.name }}">
+    <div class="game-name">{{ game.name }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">暂时还没有游戏,请等待开发者添加</div>
+{% endif %}
+{% endblock %}

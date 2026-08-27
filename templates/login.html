@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}登录 - STAONS{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h2>登录</h2>
+  <form method="post" action="{{ url_for('login') }}">
+    <div class="form-group">
+      <label>用户名</label>
+      <input type="text" name="username" value="{{ username }}" required>
+    </div>
+    <div class="form-group">
+      <label>密码</label>
+      <input type="password" name="password" required>
+    </div>
+    <button class="btn btn-primary form-submit" type="submit">登录</button>
+  </form>
+  <div class="form-footer">
+    还没有账户?<a href="{{ url_for('register') }}">去注册</a> &nbsp;|&nbsp; <a href="{{ url_for('index') }}">返回首页</a>
+  </div>
+</div>
+{% endblock %}
